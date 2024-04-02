@@ -17,6 +17,6 @@ router.delete('/clientes/:id', clintesController.deleteCliente);
 router.delete('/produtos/:id', produtosController.deleteProduto);
 
 router.put('/clientes/:id', clienteMiddlewares.validaNome, clienteMiddlewares.validaSobrenome, clienteMiddlewares.validaEmail, clienteMiddlewares.validaIdade, clintesController.updateCliente);
-router.put('/produtos/:id', produtosMiddlewares.validaNome, produtosMiddlewares.validaDescricao, produtosMiddlewares.validaPreco, produtosController.createProduto, produtosController.updateProduto);
+router.put('/produtos/:id', produtosMiddlewares.validaNome, produtosMiddlewares.validaDescricao, produtosMiddlewares.validaPreco, produtosController.updateProduto);
 
 module.exports = router;
