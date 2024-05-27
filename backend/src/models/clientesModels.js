@@ -11,7 +11,7 @@ const getAllC = async () => {
 
   console.log('No cache found, proceeding with database query');
   const clientes = await connection.query('SELECT * FROM clientes');
-  myCache.set('listaClientesProdutos', clientes, 30); //30 segundos de caching
+  myCache.set('listaClientesProdutos', clientes, 30); //salva os dados com duração de 30 segundos
   console.log('Cache updated with new data:', clientes);
 
   return res.status(200).json(clientes);
