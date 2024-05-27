@@ -7,8 +7,11 @@ const produtosController = require('./controllers/produtosController');
 const produtosMiddlewares = require('./middlewares/produtosMiddlewares');
 const clienteMiddlewares = require('./middlewares/clientesMiddlewares');
 
-router.get('/clientes', clintesController.getAllC);
-router.get('/produtos', produtosController.getAll);
+const cacheMiddleware = require('./middlewares/cacheMiddleware');
+const databaseMiddleware = require('./middlewares/databaseMiddleware');
+
+router.get('/clientes', cacheMiddleware, databaseMiddleware, clintesController.getAllC);
+router.get('/produtos', cacheMiddleware, databaseMiddleware, produtosController.getAll);
 
 router.post('/clientes', clienteMiddlewares.validaNome, clienteMiddlewares.validaSobrenome, clienteMiddlewares.validaEmail, clienteMiddlewares.validaIdade, clintesController.createCliente);
 router.post('/produtos', produtosMiddlewares.validaNome, produtosMiddlewares.validaDescricao, produtosMiddlewares.validaPreco, produtosController.createProduto);

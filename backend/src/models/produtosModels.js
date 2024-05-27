@@ -1,12 +1,21 @@
-const connection = require('./connection');
+const { connection } = require('./connection');
+const { myCache } = require('../models/connection');
 
 
 const getAll = async () => {
-  const [produtos] = await connection.execute('SELECT * FROM produtos');
+  const cachedData = myCache.get('listaClientesProdutos');
+  if (cachedData) {
+    console.log('Cache hit:', cachedData);
+    return res.status(200).json(cachedData);
+  }
 
-  return produtos;
+  console.log('No cache found, proceeding with database query');
+  const produtos = await connection.query('SELECT * FROM produtos');
+  myCache.set('listaClientesProdutos', produtos, 30); //30 segundos de caching
+  console.log('Cache updated with new data:', produtos);
+
+  return res.status(200).json(produtos);
 };
-
 
 const createProduto = async (produto) => {
 

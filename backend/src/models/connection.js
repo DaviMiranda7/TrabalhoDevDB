@@ -1,4 +1,7 @@
+// connection.js
 const mysql = require('mysql2/promise');
+const NodeCache = require('node-cache');
+const myCache = new NodeCache(); // Cria uma nova instância do node-cache
 
 require('dotenv').config();
 
@@ -9,4 +12,13 @@ const connection = mysql.createPool({
   database: process.env.MYSQL_DATABASE
 });
 
-module.exports = connection;
+function clearClientCache() {
+  myCache.flushAll();
+  console.log("Cache cleared successfully");
+}
+
+module.exports = {
+  connection,
+  myCache,
+  clearClientCache
+};
